@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+python-dotenv = "==0.9.1"
+Flask = "==1.0.2"
+Flask-HTTPAuth = "==3.2.4"
+flask-mongoengine = "*"
+pillow = "*"
+jsonschema = "*"
+
+[dev-packages]
+"flake8" = "*"
+
+[requires]
+python_version = "3.7"
+
+[pipenv]
+allow_prereleases = true

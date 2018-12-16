@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% from "_macros.html" import error_card %}
+
+{% block content %}
+    <div class="row">
+        {{ error_card("Forbidden") }}
+    </div>
+{% endblock %}

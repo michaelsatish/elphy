@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Elphy Dashboard</title>
+
+        <!--CSS-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        {% block head %}{% endblock %}
+    </head>
+
+    <body>
+        <header>
+            <!--Nav Bar-->
+            <div class="navbar-fixed">
+                <nav class="white">
+                    <div class="nav-wrapper">
+                        <div class="container">
+                            <h6 class="brand-logo green-text"><b>Elphy</b></h6>
+                            <ul class=right>
+                                <li><a href="#" class="green-text"><i class="fas fa-sign-in-alt right"></i>Login</a></li>
+                                <li></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <!--Side Nav Bar-->
+            <ul class="sidenav sidenav-fixed center" style="width: 200px; top: 65px;">
+                <li id="module_banner">
+                    <a class="green-text" style="padding-left: 50px;">Modules<i class="material-icons green-text right">view_modules</i></a>
+                </li>
+                {% block sidenav %}{% endblock %}
+            </ul>
+        </header>
+
+        <main>
+            <div class="container section">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+        <!--JS & JQuery-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        {% block script %}{% endblock %}
+    </body>
+</html>
