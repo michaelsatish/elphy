@@ -124,3 +124,23 @@ def module(name):
             modules=modules,
             tests=tests_to_tablize
         )
+
+
+@dashboard.route('/test/<number>')
+def test(number):
+    """Render the Test"""
+
+    module = session['module']
+    collection_name = session['collection_name']
+
+    with switch_collection(Test, collection_name) as TestCollection:
+        tests = TestCollection.objects(
+            module=module,
+            number=number
+        )
+
+        if len(tests) == 1:
+            return render_template(
+                'test.html',
+                test=tests[0]
+            )
