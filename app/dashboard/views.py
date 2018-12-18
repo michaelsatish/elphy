@@ -140,7 +140,7 @@ def test(number):
         )
 
         if len(tests) == 1:
-            return render_template(
-                'test.html',
-                test=tests[0]
-            )
+            return render_template('test.html', test=tests[0])
+
+        if len(tests) > 1:
+            return render_template('tests.html', tests=tests)
