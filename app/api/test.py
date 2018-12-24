@@ -1,6 +1,3 @@
-import base64
-import tempfile
-
 from flask import jsonify, request
 from jsonschema import Draft7Validator, FormatChecker
 from mongoengine.context_managers import switch_collection
@@ -148,26 +145,12 @@ def new_test():
 
             screenshot = steps.get('screenshot')
             if screenshot:
-                # Decode the b64encoded string
-                # Write to a temp file
-                # expensive I/O if many screenshots are taken
-                # Store in ImageField
-
-                # To Do: Implement a I/O free approach
-                with tempfile.TemporaryFile() as tf:
-                    img_dec = base64.b64decode(screenshot)
-                    img_byte = bytearray(img_dec)
-                    tf.write(img_byte)
-                    tf.flush()
-                    tf.seek(0)
-                    step.screenshot.put(tf)
+                step.screenshot = steps['screenshot']
             test.steps.append(step)
 
-        # Add tags
+        # Add tags and Save document
         test.tags.append(test_json['project'])
         test.tags.append(test_json['release'])
-
-        test._meta['collection'] = collection_name
         test.save()
 
         return jsonify({
