@@ -1,34 +1,21 @@
+{% from "_macros.html" import render_steps %}
+
 <ul class="collapsible">
     {% for test in tests %}
         <li>
-            <div class="collapsible-header">
-                <span><b>Run Date:</b> {{ test.date.strftime("%Y-%m-%d %H:%M:%S") }}</span>
+            {% if test.status == "Passed" %}
+                {% set row_class = "collapsible-header" %}
+            {% elif test.status == "Failed" %}
+                {% set row_class = "collapsible-header red lighten-2" %}
+            {% elif test.status == "Warning" %}
+                {% set row_class = "collapsible-header orange lighten-2" %}
+            {% endif %}
+            <div class="{{ row_class }}">
+                <span style="margin-right: 10px;"><b>Run Date:</b> {{ test.date.strftime("%Y-%m-%d %H:%M:%S") }}</span>
                 <span><b>Status:</b> {{ test.status }}</span>
             </div>
             <div class="collapsible-body">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Description</th>
-                            <th>Status</th>
-                            <th>Screenshot</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for step in test.steps %}
-                            {% if step.status == "Fail" %}
-                                <tr class="red lighten-2">
-                            {% elif step.status == "Warn" %}
-                                <tr class="orange lighten-2">
-                            {% else %}
-                                <tr>
-                            {% endif %}
-                                <td>{{ step.description }}</td>
-                                <td></td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                {{ render_steps(test.steps) }}
             </div>
         </li>
     {% endfor %}
