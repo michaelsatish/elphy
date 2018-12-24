@@ -26,7 +26,7 @@ class Project(db.Document):
 class Step(db.EmbeddedDocument):
     description = db.StringField()
     status = db.StringField()
-    screenshot = db.ImageField()
+    screenshot = db.StringField()
 
 
 class Test(db.Document):
@@ -38,9 +38,3 @@ class Test(db.Document):
     date = db.DateTimeField(default=datetime.utcnow)
     tags = db.ListField(db.StringField())
     steps = db.EmbeddedDocumentListField(Step)
-
-    meta = {
-        'indexes': ['$module'],
-        'ordering': ['-date'],
-        'auto_create_index': True
-    }
