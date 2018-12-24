@@ -1,24 +1,4 @@
+{% from "_macros.html" import render_steps %}
+
 <span><b>Run Date:</b> {{ test.date.strftime("%Y-%m-%d %H:%M:%S") }}</span>
-<table>
-    <thead>
-        <tr>
-            <th>Description</th>
-            <th>Status</th>
-            <th>Screenshot</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for step in test.steps %}
-            {% if step.status == "Fail" %}
-                <tr class="red lighten-2">
-            {% elif step.status == "Warn" %}
-                <tr class="orange lighten-2">
-            {% else %}
-                <tr>
-            {% endif %}
-                <td>{{ step.description }}</td>
-                <td></td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+{{ render_steps(test.steps) }}
