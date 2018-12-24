@@ -20,3 +20,32 @@
         <li><a class="btn waves-effect waves-light" href="{{ url_for('dashboard.module', name=module) }}">{{ module }}</a></li>
     {% endfor %}
 {% endmacro %}
+
+{% macro render_steps(steps) %}
+    <table>
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Screenshot</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for step in steps %}
+                {% if step.status == "Fail" %}
+                    <tr class="red lighten-2">
+                {% elif step.status == "Warn" %}
+                    <tr class="orange lighten-2">
+                {% else %}
+                    <tr>
+                {% endif %}
+                    <td>{{ step.description }}</td>
+                    <td>
+                        {% if step.screenshot %}
+                            <img class="materialboxed" src="data:image/png;base64,{{ step.screenshot }}" width="25">
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endmacro %}
