@@ -9,7 +9,7 @@ from ..models import Project, Test
 @dashboard.route('/projects/<project_name>/releases/<release_name>')
 def index(project_name, release_name):
     """
-    Display the overall status of the release
+    Display the overall status of a release
 
     Cards:
     # Total number of tests
@@ -25,14 +25,14 @@ def index(project_name, release_name):
     :raises 404: If project in collection but release not in releases
     """
 
-    # Return 404 if project not in collection
-    # Return 404 if project in collection but release not in releases
     try:
         project = Project.objects.get(name=project_name)
         releases = Project.objects.filter(name=project.name).distinct('releases.name')
         if release_name not in releases:
+            # Return 404 if project in collection but release not in releases
             return render_template('404.html'), 404
     except DoesNotExist:
+        # Return 404 if project not in collection
         return render_template('404.html'), 404
 
     collection_name = f'{project_name}_{release_name}'
@@ -41,8 +41,7 @@ def index(project_name, release_name):
         numbers = set(TestCollection.objects.distinct('number'))
         modules = TestCollection.objects.distinct('module')
 
-        # Filtering to remove the older tests and keep the latest rerun
-        # The latest run test picked up from tests with same number
+        # Remove the older tests and keep the latest rerun
         for num in numbers:
             test = TestCollection.objects.filter(number=num)
             latest_run_date = max(t.date for t in test)
@@ -99,8 +98,7 @@ def module(name):
         module_tests = TestCollection.objects.filter(module=name)
         numbers = set(t.number for t in module_tests)
 
-        # Filtering to remove the older tests and keep the latest rerun
-        # The latest run test picked up from tests with same number
+        # Remove the older tests and keep the latest rerun
         for num in numbers:
             test = list(filter(lambda t: t.number == num, module_tests))
             latest_run_date = max(t.date for t in test)
@@ -128,7 +126,11 @@ def module(name):
 
 @dashboard.route('/test/<number>')
 def test(number):
-    """Render the Test"""
+    """
+    Render the Test
+    If no rerun, the test is rendered as an HTML Table
+    If rereuns, the tests are rendered as collapsible
+    """
 
     module = session['module']
     collection_name = session['collection_name']
